@@ -12,7 +12,7 @@ end
 count = 0
 elves = []
 
-CSV.foreach('puzzle_input.csv').with_index do |row, i|
+CSV.foreach('puzzle_input.csv') do |row|
   if row.first.nil?
     elves << Elf.new(count)
     count = 0
@@ -23,36 +23,19 @@ CSV.foreach('puzzle_input.csv').with_index do |row, i|
 end
 
 most_cals = [0, 0, 0]
+elves_sort = []
 
 elves.each do |elf|
-  # puts elf.pack_calories
-  # if elf.pack_calories >= most_cals[0] || elf.pack_calories >= most_cals[1] || elf.pack_calories >= most_cals[2]
-  case
-  when elf.pack_calories >= most_cals[0]
-    most_cals[0] = elf.pack_calories
-  when elf.pack_calories >= most_cals[1]
-    most_cals[1] = elf.pack_calories
-  else elf.pack_calories >= most_cals[2]
-    most_cals[2] = elf.pack_calories
-  end
-  # else
-  #   puts elf.pack_calories
-  # end
+  elves_sort << elf.pack_calories
 end
 
-puts count
-puts "here are  #{most_cals}"
+elves_sort.sort!
+num_elves = elves_sort.length
 
+most_cals[0] = elves_sort[num_elves - 1].to_i
+most_cals[1] = elves_sort[num_elves - 2].to_i
+most_cals[2] = elves_sort[num_elves - 3].to_i
 
-
-
-
-
-# number of elves depends on the puzzle_input
-# variable for calories
-# calories per item
-# blank line separates each elf's stuff
-
-# which elf has the most
-
-# elf object with properties :item with properties :calories
+puts "The 3 elves with the most calories are each carrying:  #{most_cals}"
+puts "The elf carrying the most calories has #{most_cals[0]} calories."
+puts "The sum of calories carried by the 3 elves with the most is #{most_cals.sum}"
